@@ -1,0 +1,11 @@
+:host {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  #map {
+    height: 90vh;
+    width: 90%;
+  }
+}

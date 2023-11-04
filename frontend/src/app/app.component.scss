@@ -1,11 +1,29 @@
 :host {
-  height: 100vh;
-  display: flex;
   align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   justify-content: center;
 
   #map {
     height: 90vh;
     width: 90%;
+  }
+
+  .controls {
+    p {
+      margin-right: 0.75rem;
+    }
+
+    label {
+      margin: auto 0;
+    }
+
+    input {
+      margin-right: 1rem;
+    }
+
+    display: flex;
+    flex-direction: row;
   }
 }

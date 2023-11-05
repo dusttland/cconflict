@@ -16,7 +16,7 @@ Humanitarian organizations, in particular organizations that don’t have exciti
 ## Code
 
 ### frontend
-An Angular and Leaflet base map application for displaying shelters, heatmap of conflicts and sources of information.
+An Angular and Leaflet based map application for displaying shelters, heatmap of conflicts, sources of information.
 
 ### tools
 Backend tools for retrieving and processing data for the map application.

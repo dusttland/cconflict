@@ -39,15 +39,11 @@ export class AppComponent {
     this.map = map;
 
     const heatPoints = (<number[][]>await firstValueFrom(this.fs.readJsonFile('../assets/heat_map.json'))).filter((point) => {
-      return point[2] > 0.32;
+      return point[2] > 0.37;
     }).map((point) => {
-      return [point[0], point[1], point[2] * 2] as L.HeatLatLngTuple;
+      return [point[0], point[1], point[2] * 3] as L.HeatLatLngTuple;
     });
-    L.heatLayer(heatPoints, { radius: 15 }).addTo(map); // radius can be modified
-
-    Object.keys(shelters).forEach((shelterType) => {
-      this.toggleShelterType(shelterType, true);
-    });
+    L.heatLayer(heatPoints, { radius: 17 }).addTo(map); // radius can be modified
   }
 
   toggleShelterType(type: string, event: boolean | Event): void {

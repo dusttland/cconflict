@@ -46,8 +46,20 @@
       }
     }
 
-    .image {
-      width: 80%;
+    .inner-container {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100vh;
+
+      .image {
+        width: 80%;
+
+        &.last {
+          margin-bottom: 8em;
+        }
+      }
     }
   }
 }

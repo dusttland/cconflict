@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.heat';
+import { firstValueFrom } from 'rxjs';
 
-import { testdata2 } from '../assets/testdata2';
 import * as shelters from '../assets/shelters.json';
+import { FileService } from './services/file.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import * as shelters from '../assets/shelters.json';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  options = {
+  mapOptions = {
     layers: [
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -22,21 +23,25 @@ export class AppComponent {
     zoom: 10,
     center: L.latLng(31.4, 34.4),
   };
+  showComparison = false;
 
   private map!: L.Map;
   private markers: Map<string, L.Marker[]> = new Map(
     Object.keys(shelters).map((key) => [key, []])
   );
 
-  onMapReady(map: L.Map): void {
+  constructor(
+    private readonly cd: ChangeDetectorRef,
+    private readonly fs: FileService
+  ) {}
+
+  async onMapReady(map: L.Map): Promise<void> {
     this.map = map;
 
-    let heatPoints = testdata2.features.map((feature) => {
-      return [
-        feature.geometry.coordinates[1],
-        feature.geometry.coordinates[0],
-        0.6, // intensity can be modified
-      ] as L.HeatLatLngTuple;
+    const heatPoints = (<number[][]>await firstValueFrom(this.fs.readJsonFile('../assets/heat_map.json'))).filter((point) => {
+      return point[2] > 0.32;
+    }).map((point) => {
+      return [point[0], point[1], point[2] * 2] as L.HeatLatLngTuple;
     });
     L.heatLayer(heatPoints, { radius: 15 }).addTo(map); // radius can be modified
 
@@ -54,7 +59,6 @@ export class AppComponent {
       event instanceof Event
         ? (event.target as HTMLInputElement).checked
         : event;
-    console.log(isChecked);
 
     if (isChecked) {
       data.forEach((shelter) => {
@@ -69,6 +73,10 @@ export class AppComponent {
           direction: 'top',
           offset: L.point(12, 0),
         });
+        marker.on('click', () => {
+          this.showComparison = true;
+          this.cd.detectChanges();
+        });
 
         this.markers.get(type)?.push(marker);
       });
@@ -78,5 +86,10 @@ export class AppComponent {
       });
       this.markers.set(type, []);
     }
+  }
+
+  closeComparison(): void {
+    this.showComparison = false;
+    this.cd.detectChanges();
   }
 }

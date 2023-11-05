@@ -1,30 +1,47 @@
-<div
-  id="map"
-  leaflet
-  [leafletOptions]="options"
-  (leafletMapReady)="onMapReady($event)"
-></div>
-<div class="controls">
-  <p>Toggle shelter types:</p>
-  <label for="school">Schools</label>
-  <input
-    name="school"
-    type="checkbox"
-    [checked]="true"
-    (change)="toggleShelterType('school', $event)"
-  />
-  <label for="place_of_worship">Places of worship</label>
-  <input
-    name="place_of_worship"
-    type="checkbox"
-    [checked]="true"
-    (change)="toggleShelterType('place_of_worship', $event)"
-  />
-  <label for="hospital">Hospitals</label>
-  <input
-    name="hospital"
-    type="checkbox"
-    [checked]="true"
-    (change)="toggleShelterType('hospital', $event)"
-  />
+<div class="container">
+  <div
+    id="map"
+    leaflet
+    [leafletOptions]="mapOptions"
+    (leafletMapReady)="onMapReady($event)"
+  ></div>
+  <div class="controls">
+    <p>Toggle shelter types:</p>
+    <label for="school">Schools</label>
+    <input
+      name="school"
+      type="checkbox"
+      [checked]="true"
+      (change)="toggleShelterType('school', $event)"
+    />
+    <label for="place_of_worship">Places of worship</label>
+    <input
+      name="place_of_worship"
+      type="checkbox"
+      [checked]="true"
+      (change)="toggleShelterType('place_of_worship', $event)"
+    />
+    <label for="hospital">Hospitals</label>
+    <input
+      name="hospital"
+      type="checkbox"
+      [checked]="true"
+      (change)="toggleShelterType('hospital', $event)"
+    />
+  </div>
+</div>
+<div *ngIf="showComparison" class="container">
+  <button class="close" (click)="closeComparison()">
+    <img src="../assets/close.svg" />
+  </button>
+  <p>Date: 12th of October 2023</p>
+  <img class="image" src="../assets/image1.png" />
+  <p>Date: 1st of November 2023</p>
+  <img class="image" src="../assets/image2.png" />
+  <br />
+  <br />
+  <p>Before and after images from a higher resolution satellite</p>
+  <img class="image" src="../assets/maxar-1.jpg" />
+  <p></p>
+  <img class="image" src="../assets/maxar-2.jpg" />
 </div>
